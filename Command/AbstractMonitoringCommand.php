@@ -2,8 +2,8 @@
 
 namespace MCD\ZabbixMonitoringBundle\Command;
 
-use AppBundle\Monitorer\VisitorMonitorer;
 use MCD\ZabbixMonitoringBundle\Zabbix\Collector\Collector;
+use MCD\ZabbixMonitoringBundle\Zabbix\Monitoring\AbstractMonitoring;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,18 +16,18 @@ abstract class AbstractMonitoringCommand extends Command
     private $collector;
 
     /**
-     * @var VisitorMonitorer
+     * @var AbstractMonitoring
      */
-    private $monitorer;
+    private $monitoring;
 
     /**
      * @param Collector $collector
-     * @param VisitorMonitorer $monitorer
+     * @param AbstractMonitoring $monitoring
      */
-    public function __construct(Collector $collector, VisitorMonitorer $monitorer)
+    public function __construct(Collector $collector, AbstractMonitoring $monitoring)
     {
         $this->collector = $collector;
-        $this->monitorer = $monitorer;
+        $this->monitoring = $monitoring;
 
         // you *must* call the parent constructor
         parent::__construct();
@@ -43,9 +43,9 @@ abstract class AbstractMonitoringCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->collector->measure($this->getMonitoringKey(), $this->monitorer->getValue());
+        $this->collector->measure($this->getMonitoringKey(), $this->monitoring->getValue());
         $this->collector->flush();
 
-        $output->writeln($this->monitorer->initialize());
+        $output->writeln($this->monitoring->initialize());
     }
 }
