@@ -25,10 +25,5 @@
         "psr-4": {
             "MCD\\ZabbixMonitoringBundle\\": "MCD/ZabbixMonitoringBundle"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master"
-        }
     }
 }
